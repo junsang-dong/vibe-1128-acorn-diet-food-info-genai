@@ -1,0 +1,115 @@
+.nutrition-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0;
+  height: 100%;
+}
+
+.custom-tooltip {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-name {
+  color: white;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.tooltip-value {
+  color: #ffd700;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+}
+
+.tooltip-calories {
+  color: #a0aec0;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.chart-summary {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 12px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.summary-label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.summary-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.breakdown-item span {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .chart-summary {
+    max-width: 100%;
+  }
+
+  .summary-value {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .chart-summary {
+    background: #1a202c;
+  }
+
+  .summary-label {
+    color: #cbd5e0;
+  }
+
+  .summary-value {
+    color: #f7fafc;
+  }
+
+  .summary-item {
+    border-bottom-color: #4a5568;
+  }
+
+  .breakdown-item {
+    color: #cbd5e0;
+  }
+}
+

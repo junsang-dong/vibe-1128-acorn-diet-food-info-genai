@@ -1,0 +1,147 @@
+.error-message {
+  background: white;
+  border: 2px solid #fc8181;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(252, 129, 129, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.error-text {
+  flex: 1;
+}
+
+.error-text h4 {
+  color: #c53030;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.error-text p {
+  color: #742a2a;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.error-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #c53030;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.error-close:hover {
+  background: rgba(252, 129, 129, 0.1);
+}
+
+.error-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-retry {
+  padding: 0.5rem 1.5rem;
+  background: #c53030;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-retry:hover {
+  background: #9b2c2c;
+}
+
+@media (max-width: 768px) {
+  .error-message {
+    padding: 1rem;
+  }
+
+  .error-content {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .error-icon {
+    font-size: 1.5rem;
+  }
+
+  .error-text h4 {
+    font-size: 1rem;
+  }
+
+  .error-text p {
+    font-size: 0.9rem;
+  }
+
+  .btn-retry {
+    width: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .error-message {
+    background: #2d3748;
+    border-color: #fc8181;
+  }
+
+  .error-text h4 {
+    color: #fc8181;
+  }
+
+  .error-text p {
+    color: #feb2b2;
+  }
+
+  .error-close {
+    color: #fc8181;
+  }
+
+  .error-close:hover {
+    background: rgba(252, 129, 129, 0.2);
+  }
+
+  .btn-retry {
+    background: #fc8181;
+  }
+
+  .btn-retry:hover {
+    background: #f56565;
+  }
+}
+
