@@ -5,18 +5,14 @@
   "installCommand": "npm run install:all",
   "framework": null,
   "functions": {
-    "api/[[...path]].js": {
+    "api/analyze.js": {
       "memory": 1024,
       "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/((?!api/|assets/|vite\\.svg).*)",
       "destination": "/index.html"
     }
   ]

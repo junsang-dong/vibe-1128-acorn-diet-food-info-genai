@@ -47,6 +47,10 @@ vibe-1128-acorn-diet-food-info-genai/
 │   ├── package.json
 │   └── vite.config.js
 │
+├── api/                      # Vercel 서버리스 함수 (배포용)
+│   ├── health.js            # GET /api/health
+│   └── analyze.js           # POST /api/analyze
+│
 ├── backend/                  # Express 백엔드
 │   ├── server.js            # 서버 메인 파일
 │   ├── package.json
@@ -139,13 +143,21 @@ npm run dev:backend
 
 - **백엔드 서버리스 호환**: Express 앱을 Vercel 서버리스 함수로 배포 가능하도록 `export default app` 추가
 - **업로드 경로**: Vercel 환경에서는 `/tmp` 사용 (쓰기 가능 디렉터리)
-- **vercel.json 개선**: `/api/*` 라우팅, SPA 폴백(`handle: filesystem` → `index.html`) 설정
 - **배포 가이드**: `DEPLOYMENT.md`에 vercel.json 기반 배포 절차 반영
 
 ### 로컬 개발
 
 - **프론트엔드 기본 포트**: 5160 (`vite.config.js`)
 - **백엔드 기본 포트**: 5028 (`backend/.env`)
+
+### Vercel 404 오류 해결 (2025.02)
+
+**원인**: `vercel.json`에 `builds` 배열이 있으면 Vercel이 `buildCommand`와 `outputDirectory`를 **무시**합니다. 기존 설정은 `builds`에 백엔드만 포함되어 있어 프론트엔드가 빌드되지 않았고, `index.html`이 생성되지 않아 404가 발생했습니다.
+
+**해결 방법**:
+1. **builds 배열 제거** → `buildCommand`와 `outputDirectory`가 정상 동작
+2. **api/ 폴더 추가** → `api/health.js`, `api/analyze.js`로 `/api/*` 요청을 Express 앱에 전달
+3. **rewrites 수정** → SPA 폴백 시 `api/`, `assets/` 경로 제외하여 API 요청이 정적 파일로 가지 않도록 함
 
 ## 📡 API 엔드포인트
 
@@ -261,6 +273,10 @@ GitHub `main` 브랜치에 푸시할 때마다 Vercel이 자동으로 배포합�
 - 음식명이 영어로 변환되는지 확인
 - Nutritionix가 실패하면 GPT 추정값이 사용됩니다
 
+### Vercel 405 (Method Not Allowed) 오류
+- **원인**: SPA rewrite가 `/api/*` 요청까지 가로채 `index.html`로 보내 POST 요청이 정적 파일로 처리됨
+- **해결**: `vercel.json`에서 rewrite 패턴에 `api/`, `assets/` 경로 제외
+
 ## 📝 참고 문서
 
 - [Nutritionix API Guide](https://docx.syndigo.com/developers/docs/nutritionix-api-guide)
@@ -281,7 +297,4 @@ ISC
 
 Powered by GPT-4 Vision & Nutritionix API
 
----
-
-**문제가 발생하면 이슈를 등록해 주세요!** 🙌
 
