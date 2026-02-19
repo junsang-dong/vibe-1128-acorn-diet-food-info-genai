@@ -64,13 +64,13 @@ vibe-1128-acorn-diet-food-info-genai/
 ### 1. 저장소 클론
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/junsang-dong/vibe-1128-acorn-diet-food-info-genai.git
 cd vibe-1128-acorn-diet-food-info-genai
 ```
 
 ### 2. 환경변수 설정
 
-루트 디렉토리에 `.env` 파일을 생성하고 다음 내용을 입력하세요:
+`backend/` 디렉토리에 `.env` 파일을 생성하고 다음 내용을 입력하세요:
 
 ```env
 # OpenAI GPT API Key
@@ -128,8 +128,24 @@ npm run dev:backend
 
 ### 5. 브라우저에서 확인
 
-- **프론트엔드**: http://localhost:3000
-- **백엔드 API**: http://localhost:3001
+- **프론트엔드**: http://localhost:5160 (기본 포트)
+- **백엔드 API**: http://localhost:5028 (`.env`의 `PORT` 설정에 따름)
+
+> 💡 포트는 `frontend/vite.config.js`와 `backend/.env`에서 변경할 수 있습니다.
+
+## 📋 최근 업데이트 (2025.02)
+
+### Vercel 단일 배포 지원
+
+- **백엔드 서버리스 호환**: Express 앱을 Vercel 서버리스 함수로 배포 가능하도록 `export default app` 추가
+- **업로드 경로**: Vercel 환경에서는 `/tmp` 사용 (쓰기 가능 디렉터리)
+- **vercel.json 개선**: `/api/*` 라우팅, SPA 폴백(`handle: filesystem` → `index.html`) 설정
+- **배포 가이드**: `DEPLOYMENT.md`에 vercel.json 기반 배포 절차 반영
+
+### 로컬 개발
+
+- **프론트엔드 기본 포트**: 5160 (`vite.config.js`)
+- **백엔드 기본 포트**: 5028 (`backend/.env`)
 
 ## 📡 API 엔드포인트
 
@@ -200,30 +216,29 @@ npm run dev:backend
 
 ## 🌐 배포 (Vercel)
 
+`vercel.json`에 프론트엔드·백엔드 단일 배포 설정이 포함되어 있습니다. 자세한 절차는 [DEPLOYMENT.md](./DEPLOYMENT.md)를 참고하세요.
+
 ### 1. GitHub에 푸시
 
 ```bash
-git init
 git add .
-git commit -m "Initial commit"
-git remote add origin <your-github-repo-url>
-git push -u origin main
+git commit -m "Your commit message"
+git push origin main
 ```
 
 ### 2. Vercel 배포
 
 1. [Vercel](https://vercel.com)에 로그인
-2. "New Project" 클릭
-3. GitHub 저장소 연결
-4. 환경변수 설정:
+2. "New Project" → [GitHub 저장소](https://github.com/junsang-dong/vibe-1128-acorn-diet-food-info-genai) 연결
+3. **환경변수** 설정 (Vercel 대시보드):
    - `OPENAI_API_KEY`
    - `NUTRITIONIX_APP_ID`
    - `NUTRITIONIX_APP_KEY`
-5. "Deploy" 클릭
+4. "Deploy" 클릭
 
 ### 3. 자동 배포
 
-GitHub에 푸시할 때마다 Vercel이 자동으로 배포합니다.
+GitHub `main` 브랜치에 푸시할 때마다 Vercel이 자동으로 배포합니다.
 
 ## 🔧 트러블슈팅
 

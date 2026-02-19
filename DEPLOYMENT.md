@@ -39,37 +39,52 @@ git push -u origin main
 
 ## 🌐 2단계: Vercel 배포
 
+프로젝트에 `vercel.json`이 포함되어 있어 **프론트엔드 + 백엔드**가 단일 프로젝트로 자동 배포됩니다.
+
 ### 2.1 Vercel 프로젝트 생성
 
 1. [Vercel 대시보드](https://vercel.com/dashboard)에 로그인
 2. **"New Project"** 클릭
 3. GitHub 저장소 연결 (Import Git Repository)
-4. 방금 생성한 저장소 선택
+4. 저장소 선택 후 **Import** 클릭
 
 ### 2.2 프로젝트 설정
 
-#### Framework Preset
-- **Framework**: `Vite`
-- **Root Directory**: `./` (루트)
-- **Build Command**: `cd frontend && npm run build`
-- **Output Directory**: `frontend/dist`
+`vercel.json`에 빌드 설정이 포함되어 있으므로 **추가 설정 없이** 그대로 진행해도 됩니다.
 
-#### 환경변수 설정
+- **Root Directory**: `./` (루트, 기본값)
+- **Build**: `vercel.json`의 builds 설정 사용 (프론트엔드 정적 빌드 + 백엔드 서버리스)
 
-**Environment Variables** 섹션에서 다음 변수들을 추가:
+#### 환경변수 설정 (필수)
+
+**Environment Variables** 섹션에서 다음 변수들을 추가하세요:
 
 | Key | Value | 설명 |
 |-----|-------|------|
 | `OPENAI_API_KEY` | `sk-xxxxx...` | OpenAI API 키 |
 | `NUTRITIONIX_APP_ID` | `xxxxx...` | Nutritionix App ID |
 | `NUTRITIONIX_APP_KEY` | `xxxxx...` | Nutritionix App Key |
-| `PORT` | `3001` | 서버 포트 (선택사항) |
+
+> ⚠️ 환경변수는 Vercel 대시보드에서만 설정합니다. `.env` 파일은 Git에 포함되지 않습니다.
 
 ### 2.3 배포 시작
 
-1. 모든 설정 완료 후 **"Deploy"** 클릭
-2. 배포 진행 상황 확인
+1. 환경변수 설정 후 **"Deploy"** 클릭
+2. 배포 진행 상황 확인 (약 2~3분 소요)
 3. 배포 완료 후 URL 확인 (예: `https://your-app.vercel.app`)
+
+### 2.4 Vercel CLI로 배포 (선택사항)
+
+```bash
+# Vercel 로그인 (최초 1회)
+vercel login
+
+# 프로젝트 루트에서 배포
+vercel
+
+# 프로덕션 배포
+vercel --prod
+```
 
 ## 🔄 3단계: 자동 배포 설정
 

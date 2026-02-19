@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import os from 'os';
 import fs from 'fs';
 import OpenAI from 'openai';
 import axios from 'axios';
@@ -17,15 +18,15 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Create uploads directory if it doesn't exist
-const uploadsDir = join(__dirname, 'uploads');
+// Vercel serverless: use /tmp (writable), local: use uploads/
+const uploadsDir = process.env.VERCEL ? join(os.tmpdir(), 'food-analyzer-uploads') : join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -286,17 +287,21 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Food Analyzer Backend running on http://localhost:${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  
-  // Check if API keys are configured
-  if (!process.env.OPENAI_API_KEY) {
-    console.warn('⚠️  Warning: OPENAI_API_KEY not configured');
-  }
-  if (!process.env.NUTRITIONIX_APP_ID || !process.env.NUTRITIONIX_APP_KEY) {
-    console.warn('⚠️  Warning: Nutritionix API credentials not configured');
-  }
-});
+// Export for Vercel serverless
+export default app;
+
+// Start server only when running locally (not on Vercel)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Food Analyzer Backend running on http://localhost:${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+    
+    if (!process.env.OPENAI_API_KEY) {
+      console.warn('⚠️  Warning: OPENAI_API_KEY not configured');
+    }
+    if (!process.env.NUTRITIONIX_APP_ID || !process.env.NUTRITIONIX_APP_KEY) {
+      console.warn('⚠️  Warning: Nutritionix API credentials not configured');
+    }
+  });
+}
 
